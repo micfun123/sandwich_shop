@@ -37,6 +37,35 @@ void main() {
       expect(find.text('0 white footlong sandwich(es): '), findsOneWidget);
     });
 
+    group("switch testings", () {
+      testWidgets('changes sandwich size to six-inch when selected from size selector', (WidgetTester tester) async {
+        await tester.pumpWidget(const App());
+        await tester.tap(find.byType(Switch));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('six-inch').last);
+        await tester.pumpAndSettle();
+        expect(find.textContaining('six-inch sandwich'), findsOneWidget);
+      }); 
+
+
+      testWidgets('changes sandwich size back to footlong when selected from size selector', (WidgetTester tester) async {
+        await tester.pumpWidget(const App());
+        await tester.tap(find.byType(Switch));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('six-inch').last);
+        await tester.pumpAndSettle();
+        expect(find.textContaining('six-inch sandwich'), findsOneWidget);
+        await tester.tap(find.byType(Switch));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('footlong').last);
+        await tester.pumpAndSettle();
+        expect(find.textContaining('footlong sandwich'), findsOneWidget);
+      });
+    
+    });
+
+      
+
     testWidgets('does not decrement below zero', (WidgetTester tester) async {
       await tester.pumpWidget(const App());
       expect(find.text('0 white footlong sandwich(es): '), findsOneWidget);
