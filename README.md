@@ -4,6 +4,11 @@ This is a simple Flutter app that allows users to order sandwiches.
 The app is built using Flutter and Dart, and it is designed primarily to be run in a web
 browser.
 
+This project lets the user purchase sandwiches in the sizes of 6-inch and footlong. The user can also leave a comment with their order. Users are limited to ordering a maximum of 5 sandwiches at a time.
+
+
+# Installation and Setup Instructions
+
 ## Install the essential tools
 
 1. **Terminal**:
@@ -29,48 +34,33 @@ browser.
     - **macOS**: `brew install --cask visual-studio-code`
     - **Windows**: `choco install vscode`
 
-## Get the code
+## Usage Instructions
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/micfun123/sandwich_shop.git
+    cd sandwich_shop
+    ```
+2. **Get the dependencies**:
+    ```bash
+    flutter pub get
+    ```
+3. **Run the app**:
+    ```bash
+    flutter run -d chrome
+    ```
 
-### If this is your first time working on this project
+4. **tests**:
+    To run the tests for this project, use the following command:
+    ```bash
+    flutter test
+    ```
+    
 
-Enter the following commands in your terminal to clone the repository and
-open it in Visual Studio Code.
-You may want to change directory (`cd`) to the directory where you want to clone the
-repository first.
+## Contact Me
+If you have any questions or need further assistance, feel free to reach out!
+- **Email**:
+    - up2263259@myport.ac.uk
+- **GitHub**:
+    - [github.com/micfun123](https://github.com/micfun123)
 
-```bash
-git clone --branch 3 https://github.com/manighahrmani/sandwich_shop
-cd sandwich_shop
-code .
-```
 
-### If you have already cloned the repository
-
-Enter the following commands in your terminal to switch to the correct branch.
-Remember to `cd` to the directory where you cloned the repository first.
-
-```bash
-git fetch origin
-git checkout 3
-```
-
-## Run the app
-
-Open the integrated terminal in Visual Studio Code by first opening the Command
-Palette with **⌘ + Shift + P** (macOS) or **Ctrl + Shift + P** (Windows) and
-typing **Terminal: Create New Terminal** then pressing **Enter**.
-
-In the terminal, run the following commands to install the dependencies and run
-the app in your web browser:
-
-```bash
-flutter pub get
-flutter run
-```
-
-## Get support
-
-Use [the dedicated Discord channel](https://discord.com/channels/760155974467059762/1370633732779933806)
-to ask your questions and get help from the community.
-Please provide as much context as possible, including the error messages you are seeing and
-screenshots (you can open Discord in your web browser).
