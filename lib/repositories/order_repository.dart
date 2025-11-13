@@ -1,6 +1,5 @@
 class OrderRepository {
   int _quantity = 0;
-  bool _isToasted = false;
   final int maxQuantity;
 
   OrderRepository({required this.maxQuantity});
