@@ -45,7 +45,7 @@ class _OrderScreenState extends State<OrderScreen> {
     super.initState();
     _orderRepository = OrderRepository(maxQuantity: widget.maxQuantity);
     _pricingRepository = PricingRepository();
-    _pricingRepository.updatePrice(_orderRepository.quantity, !_isFootlong);
+    // pricing repository tracks counts separately; nothing to set on init
     _notesController.addListener(() {
       setState(() {});
     });
@@ -61,7 +61,7 @@ class _OrderScreenState extends State<OrderScreen> {
     if (_orderRepository.canIncrement) {
       return () => setState(() {
             _orderRepository.increment();
-            _updatePrice();
+            _pricingRepository.addItem(isSixInch: !_isFootlong);
           });
     }
     return null;
@@ -71,7 +71,7 @@ class _OrderScreenState extends State<OrderScreen> {
     if (_orderRepository.canDecrement) {
       return () => setState(() {
             _orderRepository.decrement();
-            _updatePrice();
+            _pricingRepository.removeItem(isSixInch: !_isFootlong);
           });
     }
     return null;
@@ -80,7 +80,6 @@ class _OrderScreenState extends State<OrderScreen> {
   void _onSandwichTypeChanged(bool value) {
     setState(() {
       _isFootlong = value;
-      _updatePrice();
     });
   }
 
@@ -88,9 +87,7 @@ class _OrderScreenState extends State<OrderScreen> {
     setState(() => _isToasted = value);
   }
 
-  void _updatePrice() {
-    _pricingRepository.updatePrice(_orderRepository.quantity, !_isFootlong);
-  }
+  
 
   void _onBreadTypeSelected(BreadType? value) {
     if (value != null) {

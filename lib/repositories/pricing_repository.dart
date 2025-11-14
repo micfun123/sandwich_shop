@@ -1,12 +1,37 @@
 class PricingRepository {
-    final footlongPrice = 11.00;
-    final sixInchPrice = 7.00;
-    double _totalPrice = 0.0;
+    final double footlongPrice = 11.00;
+    final double sixInchPrice = 7.00;
 
-    double get totalPrice => _totalPrice;
-    void updatePrice(int quantity, bool isSixInch) {
-        double unitPrice = isSixInch ? sixInchPrice : footlongPrice;
-        _totalPrice = unitPrice * quantity;
+    int _footlongCount = 0;
+    int _sixInchCount = 0;
+
+    int get footlongCount => _footlongCount;
+    int get sixInchCount => _sixInchCount;
+
+    double get footlongTotal => _footlongCount * footlongPrice;
+    double get sixInchTotal => _sixInchCount * sixInchPrice;
+
+    double get totalPrice => footlongTotal + sixInchTotal;
+
+    void addItem({required bool isSixInch}) {
+        if (isSixInch) {
+            _sixInchCount++;
+        } else {
+            _footlongCount++;
+        }
     }
-    
+
+    void removeItem({required bool isSixInch}) {
+        if (isSixInch) {
+            if (_sixInchCount > 0) _sixInchCount--;
+        } else {
+            if (_footlongCount > 0) _footlongCount--;
+        }
+    }
+
+    /// Utility used by tests or admin flows to set counts directly.
+    void setCounts({required int footlong, required int sixInch}) {
+        _footlongCount = footlong >= 0 ? footlong : 0;
+        _sixInchCount = sixInch >= 0 ? sixInch : 0;
+    }
 }
