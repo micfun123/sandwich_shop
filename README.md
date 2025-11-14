@@ -4,6 +4,17 @@ This is a simple Flutter app that allows users to order sandwiches.
 The app is built using Flutter and Dart, and it is designed primarily to be run in a web
 browser.
 
+## Features
+
+- Easy web UI for ordering sandwiches in two sizes: six-inch and footlong.
+- Toggle sandwich size and choose toasted or untoasted.
+- Choose bread type: `white`, `wheat`, or `wholemeal`.
+- Add a custom order note (e.g., "no onions").
+- Enforces a per-order limit (configurable; default 5 sandwiches).
+- Price calculation in GBP: six-inch £7, footlong £11 (calculated and displayed).
+- Pricing logic covered by unit tests.
+
+
 This project lets the user purchase sandwiches in the sizes of 6-inch and footlong. The user can also leave a comment with their order. Users are limited to ordering a maximum of 5 sandwiches at a time.
 
 
