@@ -10,14 +10,10 @@ class OrderRepository {
   bool get canDecrement => _quantity > 0;
 
   void increment() {
-    if (canIncrement) {
-      _quantity++;
-    }
+    if (canIncrement) _quantity++;
   }
 
   void decrement() {
-    if (canDecrement) {
-      _quantity--;
-    }
+    if (canDecrement) _quantity--;
   }
 }
