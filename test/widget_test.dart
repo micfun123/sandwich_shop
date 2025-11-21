@@ -24,6 +24,8 @@ void main() {
       await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
       await tester.pump();
       expect(find.text('1 white footlong sandwich(es): 🥪'), findsOneWidget);
+      // confirmation SnackBar should appear
+      expect(find.text('Added white footlong sandwich to cart.'), findsOneWidget);
     });
 
     testWidgets('decrements quantity when Remove is tapped',

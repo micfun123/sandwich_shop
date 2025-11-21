@@ -3,6 +3,7 @@ import 'package:sandwich_shop/views/app_styles.dart';
 import 'package:sandwich_shop/repositories/order_repository.dart';
 import 'package:sandwich_shop/repositories/pricing_repository.dart';
 import 'package:sandwich_shop/models/cart.dart';
+import 'package:sandwich_shop/models/sandwich.dart';
 
 enum BreadType { white, wheat, wholemeal }
 
@@ -40,6 +41,7 @@ class _OrderScreenState extends State<OrderScreen> {
   bool _isFootlong = true;
   BreadType _selectedBreadType = BreadType.white;
   late final PricingRepository _pricingRepository;
+  SandwichType _selectedSandwichType = SandwichType.veggieDelight;
 
   @override
   void initState() {
@@ -67,7 +69,13 @@ class _OrderScreenState extends State<OrderScreen> {
               breadType: _selectedBreadType.name,
               note: _notesController.text,
             );
-            _cart.addItem(item);
+            final added = _cart.addItem(item);
+            final String message = added
+                ? 'Added ${item.breadType} ${item.isSixInch ? 'six-inch' : 'footlong'} sandwich to cart.'
+                : 'Unable to add item: maximum quantity reached.';
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(message)),
+            );
           });
     }
     return null;
@@ -106,6 +114,35 @@ class _OrderScreenState extends State<OrderScreen> {
     return entries;
   }
 
+  List<DropdownMenuEntry<SandwichType>> _buildSandwichTypeEntries() {
+    const names = {
+      SandwichType.veggieDelight: 'Veggie Delight',
+      SandwichType.chickenTeriyaki: 'Chicken Teriyaki',
+      SandwichType.tunaMelt: 'Tuna Melt',
+      SandwichType.meatballMarinara: 'Meatball Marinara',
+    };
+    return SandwichType.values
+        .map((t) => DropdownMenuEntry<SandwichType>(value: t, label: names[t]!))
+        .toList();
+  }
+
+  void _onSandwichTypeSelected(SandwichType? value) {
+    if (value != null) setState(() => _selectedSandwichType = value);
+  }
+
+  String _currentSandwichImagePath() {
+    // Asset base names have capitalization differences.
+    const assetNames = {
+      SandwichType.veggieDelight: 'veggieDelight',
+      SandwichType.chickenTeriyaki: 'ChickenTeriyaki',
+      SandwichType.tunaMelt: 'TunaMelt',
+      SandwichType.meatballMarinara: 'MeatballMarinara',
+    };
+    final base = assetNames[_selectedSandwichType]!;
+    final sizePart = _isFootlong ? 'footlong' : 'six_inch';
+    return 'assets/images/${base}_$sizePart.png';
+  }
+
   @override
   Widget build(BuildContext context) {
     final double totalPrice = _pricingRepository.totalPrice;
@@ -139,6 +176,26 @@ class _OrderScreenState extends State<OrderScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+            // Dynamic sandwich image
+            SizedBox(
+              height: 160,
+              child: Image.asset(
+                _currentSandwichImagePath(),
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) => const Center(
+                  child: Text('Image not found', style: normalText),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            DropdownMenu<SandwichType>(
+              initialSelection: _selectedSandwichType,
+              onSelected: _onSandwichTypeSelected,
+              dropdownMenuEntries: _buildSandwichTypeEntries(),
+              label: const Text('Sandwich Type'),
+              textStyle: normalText,
+            ),
+            const SizedBox(height: 20),
             OrderItemDisplay(
               quantity: _orderRepository.quantity,
               itemType: sandwichType,
@@ -229,7 +286,8 @@ class _OrderScreenState extends State<OrderScreen> {
           ],
         ),
       ),
-      ),);
+      ),
+    );
   }
 }
 
