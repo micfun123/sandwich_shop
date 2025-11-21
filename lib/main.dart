@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
 import 'package:sandwich_shop/repositories/order_repository.dart';
 import 'package:sandwich_shop/repositories/pricing_repository.dart';
+import 'package:sandwich_shop/models/cart.dart';
 
 enum BreadType { white, wheat, wholemeal }
 
@@ -34,6 +35,7 @@ class OrderScreen extends StatefulWidget {
 
 class _OrderScreenState extends State<OrderScreen> {
   late final OrderRepository _orderRepository;
+  late final Cart _cart;
   final TextEditingController _notesController = TextEditingController();
   bool _isFootlong = true;
   BreadType _selectedBreadType = BreadType.white;
@@ -44,6 +46,7 @@ class _OrderScreenState extends State<OrderScreen> {
     super.initState();
     _orderRepository = OrderRepository(maxQuantity: widget.maxQuantity);
     _pricingRepository = PricingRepository();
+    _cart = Cart(orderRepository: _orderRepository, pricingRepository: _pricingRepository);
     _notesController.addListener(() {
       setState(() {});
     });
@@ -57,14 +60,26 @@ class _OrderScreenState extends State<OrderScreen> {
 
   VoidCallback? _getIncreaseCallback() {
     if (_orderRepository.canIncrement) {
-      return () => setState(_orderRepository.increment);
+      return () => setState(() {
+            final item = CartItem(
+              isSixInch: !_isFootlong,
+              isToasted: false,
+              breadType: _selectedBreadType.name,
+              note: _notesController.text,
+            );
+            _cart.addItem(item);
+          });
     }
     return null;
   }
 
   VoidCallback? _getDecreaseCallback() {
     if (_orderRepository.canDecrement) {
-      return () => setState(_orderRepository.decrement);
+      return () => setState(() {
+            if (_cart.items.isNotEmpty) {
+              _cart.removeAt(_cart.items.length - 1);
+            }
+          });
     }
     return null;
   }
@@ -93,10 +108,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final double totalPrice = _pricingRepository.calculatePrice(
-      quantity: _orderRepository.quantity,
-      isFootlong: _isFootlong,
-    );
+    final double totalPrice = _pricingRepository.totalPrice;
 
     String sandwichType = 'footlong';
     if (!_isFootlong) {
@@ -112,15 +124,21 @@ class _OrderScreenState extends State<OrderScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: SizedBox(
+          height: 100,
+          child: Image.asset('assets/images/logo.png'),
+        ),
         title: const Text(
           'Sandwich Counter',
           style: heading1,
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
             OrderItemDisplay(
               quantity: _orderRepository.quantity,
               itemType: sandwichType,
@@ -181,10 +199,37 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
               ],
             ),
+            const SizedBox(height: 20),
+            Card(
+              margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: Container(
+                height: 200,
+                padding: const EdgeInsets.all(8.0),
+                child: _cart.items.isEmpty
+                    ? const Center(child: Text('Cart is empty', style: normalText))
+                    : ListView.builder(
+                        itemCount: _cart.items.length,
+                        itemBuilder: (context, index) {
+                          final item = _cart.items[index];
+                          return ListTile(
+                            title: Text('${item.breadType} ${item.isSixInch ? 'six-inch' : 'footlong'}', style: normalText),
+                            subtitle: Text('Toasted: ${item.isToasted ? 'yes' : 'no'}\nNote: ${item.note}\nAdded: ${item.addedAt.toLocal()}', style: normalText),
+                            isThreeLine: true,
+                            trailing: IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () => setState(() {
+                                _cart.removeAt(index);
+                              }),
+                            ),
+                          );
+                        },
+                      ),
+              ),
+            ),
           ],
         ),
       ),
-    );
+      ),);
   }
 }
 

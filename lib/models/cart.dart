@@ -71,7 +71,7 @@ class Cart {
     }
     _pricingRepository.removeItem(isSixInch: removed.isSixInch);
     return true;
-  }
+  }   
 
   /// Remove item by index.
   CartItem? removeAt(int index) {
@@ -84,7 +84,6 @@ class Cart {
     return removed;
   }
 
-  /// Clears the cart and resets the repositories to match an empty cart.
   void clear() {
     // remove items one-by-one so repositories stay in sync
     while (_items.isNotEmpty) {
