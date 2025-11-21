@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
 import 'package:sandwich_shop/repositories/order_repository.dart';
 import 'package:sandwich_shop/repositories/pricing_repository.dart';
+import 'package:sandwich_shop/models/cart.dart';
 
 enum BreadType { white, wheat, wholemeal }
 
@@ -35,6 +36,7 @@ class OrderScreen extends StatefulWidget {
 class _OrderScreenState extends State<OrderScreen> {
   late final OrderRepository _orderRepository;
   late final PricingRepository _pricingRepository;
+  late final Cart _cart;
   final TextEditingController _notesController = TextEditingController();
   bool _isFootlong = true;
   BreadType _selectedBreadType = BreadType.white;
@@ -45,6 +47,7 @@ class _OrderScreenState extends State<OrderScreen> {
     super.initState();
     _orderRepository = OrderRepository(maxQuantity: widget.maxQuantity);
     _pricingRepository = PricingRepository();
+    _cart = Cart(orderRepository: _orderRepository, pricingRepository: _pricingRepository);
     // pricing repository tracks counts separately; nothing to set on init
     _notesController.addListener(() {
       setState(() {});
@@ -60,8 +63,13 @@ class _OrderScreenState extends State<OrderScreen> {
   VoidCallback? _getIncreaseCallback() {
     if (_orderRepository.canIncrement) {
       return () => setState(() {
-            _orderRepository.increment();
-            _pricingRepository.addItem(isSixInch: !_isFootlong);
+            final item = CartItem(
+              isSixInch: !_isFootlong,
+              isToasted: _isToasted,
+              breadType: _selectedBreadType.name,
+              note: _notesController.text,
+            );
+            _cart.addItem(item);
           });
     }
     return null;
@@ -70,8 +78,9 @@ class _OrderScreenState extends State<OrderScreen> {
   VoidCallback? _getDecreaseCallback() {
     if (_orderRepository.canDecrement) {
       return () => setState(() {
-            _orderRepository.decrement();
-            _pricingRepository.removeItem(isSixInch: !_isFootlong);
+            if (_cart.items.isNotEmpty) {
+              _cart.removeAt(_cart.items.length - 1);
+            }
           });
     }
     return null;
@@ -145,6 +154,11 @@ class _OrderScreenState extends State<OrderScreen> {
               'Total: £${_pricingRepository.totalPrice.toStringAsFixed(2)}',
               style: normalText,
             ),
+            const SizedBox(height: 8),
+            Text(
+              'Items: ${_cart.items.length} (Footlong: ${_cart.footlongCount}, Six-inch: ${_cart.sixInchCount})',
+              style: normalText,
+            ),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -205,6 +219,50 @@ class _OrderScreenState extends State<OrderScreen> {
                   backgroundColor: Colors.red,
                 ),
               ],
+            ),
+            const SizedBox(height: 16),
+            // Visible cart list
+            SizedBox(
+              height: 220,
+              child: Card(
+                margin: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: _cart.items.isEmpty
+                      ? const Center(
+                          child: Text('Cart is empty', style: normalText),
+                        )
+                      : ListView.builder(
+                          itemCount: _cart.items.length,
+                          itemBuilder: (context, index) {
+                            final item = _cart.items[index];
+                            final sizeLabel = item.isSixInch ? 'six-inch' : 'footlong';
+                            final toastedLabel = item.isToasted ? 'toasted' : 'untoasted';
+                            final added = item.addedAt.toLocal().toString().split('.').first;
+                            return ListTile(
+                              title: Text(
+                                '$sizeLabel • ${item.breadType} • $toastedLabel',
+                                style: normalText,
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  if (item.note.isNotEmpty)
+                                    Text('Note: ${item.note}', style: normalText),
+                                  Text('Added: $added', style: normalText),
+                                ],
+                              ),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.delete, color: Colors.red),
+                                onPressed: () => setState(() {
+                                  _cart.removeAt(index);
+                                }),
+                              ),
+                            );
+                          },
+                        ),
+                ),
+              ),
             ),
           ],
         ),
