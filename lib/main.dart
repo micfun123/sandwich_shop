@@ -242,6 +242,7 @@ class _OrderScreenState extends State<OrderScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 StyledButton(
+                  key: const Key('add_button'),
                   onPressed: _getIncreaseCallback(),
                   icon: Icons.add,
                   label: 'Add',
@@ -249,6 +250,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
                 const SizedBox(width: 8),
                 StyledButton(
+                  key: const Key('remove_button'),
                   onPressed: _getDecreaseCallback(),
                   icon: Icons.remove,
                   label: 'Remove',

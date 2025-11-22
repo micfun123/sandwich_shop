@@ -21,8 +21,10 @@ void main() {
     testWidgets('increments quantity when Add is tapped',
         (WidgetTester tester) async {
       await tester.pumpWidget(const App());
-      await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
-      await tester.pump();
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.byKey(const Key('add_button')));
+      await tester.tap(find.byKey(const Key('add_button')));
+      await tester.pumpAndSettle();
       expect(find.text('1 white footlong sandwich(es): 🥪'), findsOneWidget);
       // confirmation SnackBar should appear
       expect(find.text('Added white footlong sandwich to cart.'), findsOneWidget);
@@ -31,11 +33,14 @@ void main() {
     testWidgets('decrements quantity when Remove is tapped',
         (WidgetTester tester) async {
       await tester.pumpWidget(const App());
-      await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
-      await tester.pump();
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.byKey(const Key('add_button')));
+      await tester.tap(find.byKey(const Key('add_button')));
+      await tester.pumpAndSettle();
       expect(find.text('1 white footlong sandwich(es): 🥪'), findsOneWidget);
-      await tester.tap(find.widgetWithText(ElevatedButton, 'Remove'));
-      await tester.pump();
+      await tester.ensureVisible(find.byKey(const Key('remove_button')));
+      await tester.tap(find.byKey(const Key('remove_button')));
+      await tester.pumpAndSettle();
       expect(find.text('0 white footlong sandwich(es): '), findsOneWidget);
     });
 
@@ -50,9 +55,11 @@ void main() {
     testWidgets('does not increment above maxQuantity',
         (WidgetTester tester) async {
       await tester.pumpWidget(const App());
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.byKey(const Key('add_button')));
       for (int i = 0; i < 10; i++) {
-        await tester.tap(find.widgetWithText(ElevatedButton, 'Add'));
-        await tester.pump();
+        await tester.tap(find.byKey(const Key('add_button')));
+        await tester.pumpAndSettle();
       }
       expect(find.text('5 white footlong sandwich(es): 🥪🥪🥪🥪🥪'),
           findsOneWidget);

@@ -1,2 +1,2 @@
-import 'package:sandwich_shop/repositories/order_repository.dart';
-import 'package:sandwich_shop/repositories/pricing_repository.dart';
+// Placeholder test main to avoid test harness errors; actual tests live in test/models/cart_test.dart
+void main() {}
