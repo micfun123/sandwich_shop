@@ -134,76 +134,88 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ],
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 20),
-              // Cart total header
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text('Your Cart', style: heading1),
-              ),
-              const SizedBox(height: 8),
-              for (MapEntry<Sandwich, int> entry in widget.cart.items.entries)
-                CartItemRow(
-                  sandwich: entry.key,
-                  quantity: entry.value,
-                  maxQuantity: widget.maxQuantity,
-                  onIncrease: () {
-                    final current = widget.cart.getQuantity(entry.key);
-                    if (current < widget.maxQuantity) {
-                      setState(() {
-                        widget.cart.updateQuantity(entry.key, current + 1);
-                      });
-                    }
-                  },
-                  onDecrease: () {
-                    final current = widget.cart.getQuantity(entry.key);
-                    if (current > 1) {
-                      setState(() {
-                        widget.cart.updateQuantity(entry.key, current - 1);
-                      });
-                    } else {
-                      setState(() {
-                        widget.cart.removeItem(entry.key);
-                      });
-                      _showRemovedSnackbar(entry.key);
-                    }
-                  },
-                  onEdit: () => _showQuantityEditor(entry.key, entry.value),
-                  onRemove: () {
+    final body = Center(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: 20),
+            // Cart total header
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text('Your Cart', style: heading1),
+            ),
+            const SizedBox(height: 8),
+            for (MapEntry<Sandwich, int> entry in widget.cart.items.entries)
+              CartItemRow(
+                sandwich: entry.key,
+                quantity: entry.value,
+                maxQuantity: widget.maxQuantity,
+                onIncrease: () {
+                  final current = widget.cart.getQuantity(entry.key);
+                  if (current < widget.maxQuantity) {
+                    setState(() {
+                      widget.cart.updateQuantity(entry.key, current + 1);
+                    });
+                  }
+                },
+                onDecrease: () {
+                  final current = widget.cart.getQuantity(entry.key);
+                  if (current > 1) {
+                    setState(() {
+                      widget.cart.updateQuantity(entry.key, current - 1);
+                    });
+                  } else {
                     setState(() {
                       widget.cart.removeItem(entry.key);
                     });
                     _showRemovedSnackbar(entry.key);
-                  },
-                ),
-              Builder(builder: (context) {
-                final pricing = PricingRepository().computeTotals(widget.cart);
-                return Column(
-                  children: [
-                    Text('Subtotal: £${pricing.subtotal.toStringAsFixed(2)}', style: normalText, textAlign: TextAlign.center),
-                    const SizedBox(height: 4),
-                    Text('Tax: £${pricing.tax.toStringAsFixed(2)}', style: normalText, textAlign: TextAlign.center),
-                    const SizedBox(height: 6),
-                    Text('Total: £${pricing.total.toStringAsFixed(2)}', style: heading2, textAlign: TextAlign.center),
-                  ],
-                );
-              }),
-              const SizedBox(height: 20),
-              StyledButton(
-                onPressed: _goBack,
-                icon: Icons.arrow_back,
-                label: 'Back to Order',
-                backgroundColor: Colors.grey,
+                  }
+                },
+                onEdit: () => _showQuantityEditor(entry.key, entry.value),
+                onRemove: () {
+                  setState(() {
+                    widget.cart.removeItem(entry.key);
+                  });
+                  _showRemovedSnackbar(entry.key);
+                },
               ),
-              const SizedBox(height: 20),
-            ],
-          ),
+            Builder(builder: (context) {
+              final pricing = PricingRepository().computeTotals(widget.cart);
+              return Column(
+                children: [
+                  Text('Subtotal: £${pricing.subtotal.toStringAsFixed(2)}', style: normalText, textAlign: TextAlign.center),
+                  const SizedBox(height: 4),
+                  Text('Tax: £${pricing.tax.toStringAsFixed(2)}', style: normalText, textAlign: TextAlign.center),
+                  const SizedBox(height: 6),
+                  Text('Total: £${pricing.total.toStringAsFixed(2)}', style: heading2, textAlign: TextAlign.center),
+                ],
+              );
+            }),
+            const SizedBox(height: 20),
+            StyledButton(
+              onPressed: _goBack,
+              icon: Icons.arrow_back,
+              label: 'Back to Order',
+              backgroundColor: Colors.grey,
+            ),
+            const SizedBox(height: 20),
+          ],
         ),
       ),
+    );
+
+    return AppShell(
+      title: const Text('Your Cart', style: heading1),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.info_outline),
+          tooltip: 'About',
+          onPressed: () => Navigator.pushNamed(context, '/about'),
+        ),
+      ],
+      body: body,
+    );
     );
   }
 }
