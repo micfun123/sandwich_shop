@@ -157,9 +157,9 @@
 - - [X] Implement `CartItemRow` and cart screen changes in `lib/views/cart_screen.dart`.
 - - [X] Ensure `maxQuantity` accessible from `lib/views/order_screen.dart`.
 - - [X] Integrate pricing recalculation using `lib/repositories/pricing_repository.dart`.
-- - [ ] Add unit and widget tests under `test/`.
-- - [ ] Run `flutter analyze` and `flutter test` and fix issues.
-- - [ ] Manual QA: run through test cases and accessibility checks.
+- - [X] Add unit and widget tests under `test/`.
+- - [X] Run `flutter analyze` and `flutter test` and fix issues.
+- - [X] Manual QA: run through test cases and accessibility checks.
 
 **Next Steps (developer guidance)**
 - - Start with small focused commits per subtask listed above (one commit per subtask).

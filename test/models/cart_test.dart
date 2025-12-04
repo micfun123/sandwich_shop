@@ -3,7 +3,50 @@ import 'package:sandwich_shop/models/cart.dart';
 import 'package:sandwich_shop/models/sandwich.dart';
 
 void main() {
-  group('Cart', () {
+  group('Cart model', () {
+    late Cart cart;
+    late Sandwich s1;
+
+    setUp(() {
+      cart = Cart();
+      s1 = Sandwich(type: SandwichType.tunaMelt, isFootlong: false, breadType: BreadType.wheat);
+    });
+
+    test('add and getQuantity', () {
+      expect(cart.getQuantity(s1), 0);
+      cart.add(s1, quantity: 2);
+      expect(cart.getQuantity(s1), 2);
+      expect(cart.countOfItems, 2);
+    });
+
+    test('updateQuantity sets exact quantity', () {
+      cart.add(s1, quantity: 3);
+      expect(cart.getQuantity(s1), 3);
+      cart.updateQuantity(s1, 5);
+      expect(cart.getQuantity(s1), 5);
+    });
+
+    test('updateQuantity with zero removes and records lastRemoved', () {
+      cart.add(s1, quantity: 2);
+      cart.updateQuantity(s1, 0);
+      expect(cart.getQuantity(s1), 0);
+      expect(cart.lastRemoved, isNotNull);
+      expect(cart.lastRemoved!.key.name, s1.name);
+      expect(cart.lastRemoved!.value, 2);
+    });
+
+    test('removeItem and restoreLastRemoved', () {
+      cart.add(s1, quantity: 4);
+      cart.removeItem(s1);
+      expect(cart.getQuantity(s1), 0);
+      expect(cart.lastRemoved, isNotNull);
+      cart.restoreLastRemoved();
+      expect(cart.getQuantity(s1), 4);
+      expect(cart.lastRemoved, isNull);
+    });
+  });
+
+  group('Cart additional behaviors', () {
     late Cart cart;
     late Sandwich sandwichA;
     late Sandwich sandwichB;

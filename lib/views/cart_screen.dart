@@ -126,6 +126,13 @@ class _CartScreenState extends State<CartScreen> {
           'Cart View',
           style: heading1,
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            tooltip: 'About',
+            onPressed: () => Navigator.pushNamed(context, '/about'),
+          ),
+        ],
       ),
       body: Center(
         child: SingleChildScrollView(

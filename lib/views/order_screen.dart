@@ -134,6 +134,13 @@ class _OrderScreenState extends State<OrderScreen> {
           'Sandwich Counter',
           style: heading1,
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            tooltip: 'About',
+            onPressed: () => Navigator.pushNamed(context, '/about'),
+          ),
+        ],
       ),
       body: Center(
         child: SingleChildScrollView(

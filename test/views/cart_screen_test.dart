@@ -18,6 +18,7 @@ void main() {
       await tester.pumpWidget(app);
 
       expect(find.text('Cart View'), findsOneWidget);
+      expect(find.text('Subtotal: £0.00'), findsOneWidget);
       expect(find.text('Total: £0.00'), findsOneWidget);
     });
 
@@ -40,9 +41,12 @@ void main() {
 
       expect(find.text('Cart View'), findsOneWidget);
       expect(find.text('Veggie Delight'), findsOneWidget);
-      expect(find.text('Footlong on white bread'), findsOneWidget);
-      expect(find.text('Qty: 2 - £22.00'), findsOneWidget);
-      expect(find.text('Total: £22.00'), findsOneWidget);
+      expect(find.text('Footlong on white'), findsOneWidget);
+      expect(find.text('2'), findsWidgets);
+      // subtotal 2 * 11 = 22
+      expect(find.text('Subtotal: £22.00'), findsOneWidget);
+      // total with 10% tax = 24.20
+      expect(find.text('Total: £24.20'), findsOneWidget);
     });
 
     testWidgets('displays multiple cart items correctly',
@@ -70,11 +74,13 @@ void main() {
 
       expect(find.text('Veggie Delight'), findsOneWidget);
       expect(find.text('Chicken Teriyaki'), findsOneWidget);
-      expect(find.text('Footlong on white bread'), findsOneWidget);
-      expect(find.text('Six-inch on wheat bread'), findsOneWidget);
-      expect(find.text('Qty: 1 - £11.00'), findsOneWidget);
-      expect(find.text('Qty: 3 - £21.00'), findsOneWidget);
-      expect(find.text('Total: £32.00'), findsOneWidget);
+      expect(find.text('Footlong on white'), findsOneWidget);
+      expect(find.text('Six-inch on wheat'), findsOneWidget);
+      expect(find.text('1'), findsWidgets);
+      expect(find.text('3'), findsWidgets);
+      // subtotal 11 + 21 = 32
+      expect(find.text('Subtotal: £32.00'), findsOneWidget);
+      expect(find.text('Total: £35.20'), findsOneWidget);
     });
 
     testWidgets('back button navigates back', (WidgetTester tester) async {
@@ -135,8 +141,10 @@ void main() {
 
       await tester.pumpWidget(app);
 
-      expect(find.text('Qty: 3 - £33.00'), findsOneWidget);
-      expect(find.text('Total: £33.00'), findsOneWidget);
+      expect(find.text('3'), findsWidgets);
+      // subtotal 3 * 11 = 33
+      expect(find.text('Subtotal: £33.00'), findsOneWidget);
+      expect(find.text('Total: £36.30'), findsOneWidget);
     });
   });
 }
