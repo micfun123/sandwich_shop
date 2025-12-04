@@ -79,7 +79,7 @@ class _OrderScreenState extends State<OrderScreen> {
     Navigator.push(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => CartScreen(cart: _cart),
+        builder: (BuildContext context) => CartScreen(cart: _cart, maxQuantity: widget.maxQuantity),
       ),
     );
   }
