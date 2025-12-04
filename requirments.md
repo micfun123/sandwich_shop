@@ -156,7 +156,7 @@
 - - [X] Implement model changes in `lib/models/cart.dart`.
 - - [X] Implement `CartItemRow` and cart screen changes in `lib/views/cart_screen.dart`.
 - - [X] Ensure `maxQuantity` accessible from `lib/views/order_screen.dart`.
-- - [ ] Integrate pricing recalculation using `lib/repositories/pricing_repository.dart`.
+- - [X] Integrate pricing recalculation using `lib/repositories/pricing_repository.dart`.
 - - [ ] Add unit and widget tests under `test/`.
 - - [ ] Run `flutter analyze` and `flutter test` and fix issues.
 - - [ ] Manual QA: run through test cases and accessibility checks.

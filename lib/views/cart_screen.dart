@@ -173,11 +173,18 @@ class _CartScreenState extends State<CartScreen> {
                     _showRemovedSnackbar(entry.key);
                   },
                 ),
-              Text(
-                'Total: £${widget.cart.totalPrice.toStringAsFixed(2)}',
-                style: heading2,
-                textAlign: TextAlign.center,
-              ),
+              Builder(builder: (context) {
+                final pricing = PricingRepository().computeTotals(widget.cart);
+                return Column(
+                  children: [
+                    Text('Subtotal: £${pricing.subtotal.toStringAsFixed(2)}', style: normalText, textAlign: TextAlign.center),
+                    const SizedBox(height: 4),
+                    Text('Tax: £${pricing.tax.toStringAsFixed(2)}', style: normalText, textAlign: TextAlign.center),
+                    const SizedBox(height: 6),
+                    Text('Total: £${pricing.total.toStringAsFixed(2)}', style: heading2, textAlign: TextAlign.center),
+                  ],
+                );
+              }),
               const SizedBox(height: 20),
               StyledButton(
                 onPressed: _goBack,
