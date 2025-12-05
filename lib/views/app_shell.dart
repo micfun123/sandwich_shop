@@ -16,10 +16,10 @@ class AppShell extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          DrawerHeader(
+          const DrawerHeader(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text('Sandwich Shop', style: heading1),
                 SizedBox(height: 8),
                 Text('Fresh sandwiches', style: normalText),
@@ -66,7 +66,7 @@ class AppShell extends StatelessWidget {
         children: [
           Container(
             width: 240,
-            color: Theme.of(context).colorScheme.surfaceVariant,
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
             child: SafeArea(child: buildNavColumn()),
           ),
           Expanded(

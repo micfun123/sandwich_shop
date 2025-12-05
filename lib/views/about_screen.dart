@@ -7,9 +7,9 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppShell(
-      title: const Text('About Us', style: heading1),
-      body: const Padding(
+    return const AppShell(
+      title: Text('About Us', style: heading1),
+      body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

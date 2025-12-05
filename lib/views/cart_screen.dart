@@ -134,7 +134,7 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ],
       ),
-    final body = Center(
+    body: Center(
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -203,19 +203,10 @@ class _CartScreenState extends State<CartScreen> {
           ],
         ),
       ),
-    );
+    ),
 
-    return AppShell(
-      title: const Text('Your Cart', style: heading1),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.info_outline),
-          tooltip: 'About',
-          onPressed: () => Navigator.pushNamed(context, '/about'),
-        ),
-      ],
-      body: body,
-    );
+    
+
     );
   }
 }
