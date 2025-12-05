@@ -30,6 +30,7 @@ class AppShell extends StatelessWidget {
             leading: const Icon(Icons.home),
             title: const Text('Home'),
             onTap: () {
+              Navigator.pop(context); // Close drawer
               Navigator.pushReplacementNamed(context, '/');
             },
           ),
@@ -37,7 +38,17 @@ class AppShell extends StatelessWidget {
             leading: const Icon(Icons.info_outline),
             title: const Text('About'),
             onTap: () {
+              Navigator.pop(context); // Close drawer
               Navigator.pushNamed(context, '/about');
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.login),
+            title: const Text('Sign In / Sign Up'),
+            onTap: () {
+              Navigator.pop(context); // Close drawer
+              Navigator.pushNamed(context, '/auth');
             },
           ),
         ],
@@ -48,11 +59,21 @@ class AppShell extends StatelessWidget {
     if (width < 800) {
       return Scaffold(
         appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(height: 100, child: Image.asset('assets/images/logo.png')),
+          title: Row(
+            children: [
+              SizedBox(
+                height: 32,
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(Icons.fastfood, size: 32);
+                  },
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(child: title),
+            ],
           ),
-          title: title,
           actions: actions,
         ),
         drawer: Drawer(child: buildNavColumn()),
