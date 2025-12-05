@@ -68,7 +68,12 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
             backgroundColor: Colors.green,
           ),
         );
-        Navigator.pop(context);
+        // Navigate to main shop (home route)
+        Navigator.pushNamedAndRemoveUntil(
+          context, 
+          '/', 
+          (route) => false,
+        );
       }
     }
   }
@@ -103,7 +108,12 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
             backgroundColor: Colors.green,
           ),
         );
-        Navigator.pop(context);
+        // Navigate to main shop (home route)
+        Navigator.pushNamedAndRemoveUntil(
+          context, 
+          '/', 
+          (route) => false,
+        );
       }
     }
   }
