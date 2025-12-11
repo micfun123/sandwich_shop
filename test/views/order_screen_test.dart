@@ -283,7 +283,7 @@ void main() {
       await tester.tap(removeButtonFinder);
       await tester.pumpAndSettle();
 
-      expect(find.text('0'), findsNWidgets(2)); // One in quantity display, one in cart summary
+      expect(find.text('0'), findsOneWidget); // Quantity display; badge hides zero count
       IconButton removeButton = tester.widget<IconButton>(removeButtonFinder);
       expect(removeButton.onPressed, isNull);
 
@@ -298,7 +298,7 @@ void main() {
       await tester.tap(removeButtonFinder);
       await tester.pumpAndSettle();
 
-      expect(find.text('0'), findsNWidgets(2)); // One in quantity display, one in cart summary
+      expect(find.text('0'), findsOneWidget); // Quantity display; badge hides zero count
     });
 
     testWidgets('navigates to cart view when View Cart button is tapped',
