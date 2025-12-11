@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
+import 'package:sandwich_shop/views/common_widgets.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -53,15 +54,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile', style: heading1),
+      appBar: const SandwichAppBar(
+        title: 'Profile',
+        showBackButton: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('Enter your details:', style: heading2),
+            Text('Enter your details:', style: heading2),
             const SizedBox(height: 20),
             TextField(
               controller: _nameController,
@@ -83,6 +85,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onPressed: _saveProfile,
               child: const Text('Save Profile'),
             ),
+            const SizedBox(height: 20),
+            const BackToOrderButton(),
           ],
         ),
       ),
