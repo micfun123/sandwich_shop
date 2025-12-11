@@ -117,10 +117,14 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   void _navigateToCartView() {
+    final Cart cart = Provider.of<Cart>(context, listen: false);
     Navigator.push(
       context,
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => const CartScreen(),
+        builder: (BuildContext context) => ChangeNotifierProvider<Cart>.value(
+          value: cart,
+          child: const CartScreen(),
+        ),
       ),
     );
   }
