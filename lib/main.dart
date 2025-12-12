@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sandwich_shop/models/cart.dart';
-import 'package:sandwich_shop/views/main_navigation.dart';
+import 'package:sandwich_shop/views/common_widgets.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
 
 void main() async {

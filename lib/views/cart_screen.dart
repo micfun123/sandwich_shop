@@ -185,8 +185,6 @@ class _CartScreenState extends State<CartScreen> {
                     },
                   ),
                   const SizedBox(height: 20),
-                  const BackToOrderButton(),
-                  const SizedBox(height: 20),
                 ],
               );
             },

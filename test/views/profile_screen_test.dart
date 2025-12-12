@@ -23,7 +23,6 @@ void main() {
       expect(find.text('Preferred Location'), findsOneWidget);
       expect(find.text('Save Profile'), findsOneWidget);
       expect(find.byType(TextField), findsNWidgets(2));
-      expect(find.byType(ElevatedButton), findsNWidgets(2)); // Save Profile + Back to Order
     });
 
     testWidgets('has proper layout structure', (WidgetTester tester) async {

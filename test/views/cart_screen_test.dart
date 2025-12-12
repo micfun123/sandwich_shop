@@ -211,24 +211,5 @@ void main() {
       expect(find.text('Item removed from cart'), findsOneWidget);
     });
 
-    testWidgets('back button navigates back', (WidgetTester tester) async {
-      final Cart cart = Cart();
-      final MaterialApp app = MaterialApp(
-        home: ChangeNotifierProvider<Cart>.value(
-          value: cart,
-          child: const CartScreen(),
-        ),
-      );
-
-      await tester.pumpWidget(app);
-
-      final Finder backButtonFinder =
-          find.widgetWithText(StyledButton, 'Back to Order');
-      expect(backButtonFinder, findsOneWidget);
-
-      final StyledButton backButton =
-          tester.widget<StyledButton>(backButtonFinder);
-      expect(backButton.onPressed, isNotNull);
-    });
   });
 }

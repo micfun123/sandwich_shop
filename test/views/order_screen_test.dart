@@ -101,40 +101,6 @@ void main() {
       expect(find.text('Cart: 3 items - £33.00'), findsOneWidget);
     });
 
-    testWidgets('cart summary accumulates when multiple items are added',
-        (WidgetTester tester) async {
-      final MaterialApp app = MaterialApp(
-        home: ChangeNotifierProvider<Cart>(
-          create: (_) => Cart(),
-          child: const OrderScreen(),
-        ),
-      );
-      await tester.pumpWidget(app);
-
-      final Finder addToCartButtonFinder =
-          find.widgetWithText(StyledButton, 'Add to Cart');
-      await tester.ensureVisible(addToCartButtonFinder);
-      await tester.pumpAndSettle();
-      await tester.tap(addToCartButtonFinder);
-      await tester.pumpAndSettle();
-
-      expect(find.text('Cart: 1 items - £11.00'), findsOneWidget);
-
-      final Finder addButtonFinder = find.byIcon(Icons.add);
-      await tester.ensureVisible(addButtonFinder);
-      await tester.pumpAndSettle();
-      await tester.tap(addButtonFinder);
-      await tester.pumpAndSettle();
-
-      await tester.ensureVisible(addToCartButtonFinder);
-      await tester.pumpAndSettle();
-      await tester.tap(addToCartButtonFinder);
-      await tester.pumpAndSettle();
-
-      expect(find.text('Cart: 3 items - £33.00'), findsOneWidget);
-    });
-  });
-
   group('OrderScreen - Interactions', () {
     testWidgets('shows SnackBar confirmation when item is added to cart',
         (WidgetTester tester) async {
@@ -373,4 +339,4 @@ void main() {
       expect(button.enabled, isFalse);
     });
   });
-}
+

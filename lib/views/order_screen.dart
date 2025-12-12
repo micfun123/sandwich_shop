@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sandwich_shop/views/app_styles.dart';
-import 'package:sandwich_shop/views/cart_screen.dart';
 import 'package:sandwich_shop/models/cart.dart';
 import 'package:sandwich_shop/models/sandwich.dart';
-import 'package:sandwich_shop/views/profile_screen.dart';
-import 'package:sandwich_shop/views/settings_screen.dart';
 import 'package:sandwich_shop/views/common_widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:sandwich_shop/views/cart_screen.dart';
 
 class OrderScreen extends StatefulWidget {
   final int maxQuantity;
@@ -27,6 +25,19 @@ class _OrderScreenState extends State<OrderScreen> {
   BreadType _selectedBreadType = BreadType.white;
   int _quantity = 1;
 
+  void _navigateToCartView() {
+    final Cart cart = Provider.of<Cart>(context, listen: false);
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => ChangeNotifierProvider<Cart>.value(
+          value: cart,
+          child: const CartScreen(),
+        ),
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -41,44 +52,8 @@ class _OrderScreenState extends State<OrderScreen> {
     super.dispose();
   }
 
-  Future<void> _navigateToProfile() async {
-    final Map<String, String>? result =
-        await Navigator.push<Map<String, String>>(
-      context,
-      MaterialPageRoute<Map<String, String>>(
-        builder: (BuildContext context) => const ProfileScreen(),
-      ),
-    );
+  
 
-    final bool hasResult = result != null;
-    final bool widgetStillMounted = mounted;
-
-    if (hasResult && widgetStillMounted) {
-      _showWelcomeMessage(result);
-    }
-  }
-
-  void _showWelcomeMessage(Map<String, String> profileData) {
-    final String name = profileData['name']!;
-    final String location = profileData['location']!;
-    final String welcomeMessage = 'Welcome, $name! Ordering from $location';
-
-    final SnackBar welcomeSnackBar = SnackBar(
-      content: Text(welcomeMessage),
-      duration: const Duration(seconds: 3),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(welcomeSnackBar);
-  }
-
-  void _navigateToSettings() {
-    Navigator.push(
-      context,
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) => const SettingsScreen(),
-      ),
-    );
-  }
 
   void _addToCart() {
     if (_quantity > 0) {
@@ -116,18 +91,6 @@ class _OrderScreenState extends State<OrderScreen> {
     return null;
   }
 
-  void _navigateToCartView() {
-    final Cart cart = Provider.of<Cart>(context, listen: false);
-    Navigator.push(
-      context,
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) => ChangeNotifierProvider<Cart>.value(
-          value: cart,
-          child: const CartScreen(),
-        ),
-      ),
-    );
-  }
 
   List<DropdownMenuEntry<SandwichType>> _buildSandwichTypeEntries() {
     List<DropdownMenuEntry<SandwichType>> entries = [];
@@ -252,6 +215,11 @@ class _OrderScreenState extends State<OrderScreen> {
                 icon: Icons.add_shopping_cart,
                 label: 'Add to Cart',
                 backgroundColor: Colors.green,
+              ),
+              const SizedBox(height: 12),
+              StyledButton(
+                label: 'View Cart',
+                onPressed: _navigateToCartView,
               ),
               Consumer<Cart>(
                 builder: (context, cart, child) {

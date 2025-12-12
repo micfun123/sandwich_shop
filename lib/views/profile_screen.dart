@@ -86,7 +86,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: const Text('Save Profile'),
             ),
             const SizedBox(height: 20),
-            const BackToOrderButton(),
           ],
         ),
       ),
