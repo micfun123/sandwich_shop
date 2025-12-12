@@ -100,6 +100,7 @@ void main() {
 
       expect(find.text('Cart: 3 items - £33.00'), findsOneWidget);
     });
+  });
 
   group('OrderScreen - Interactions', () {
     testWidgets('shows SnackBar confirmation when item is added to cart',
@@ -339,4 +340,4 @@ void main() {
       expect(button.enabled, isFalse);
     });
   });
-
+}

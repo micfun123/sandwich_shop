@@ -218,6 +218,8 @@ class _OrderScreenState extends State<OrderScreen> {
               ),
               const SizedBox(height: 12),
               StyledButton(
+                icon: Icons.shopping_cart,
+                  backgroundColor: Colors.orange,
                 label: 'View Cart',
                 onPressed: _navigateToCartView,
               ),
