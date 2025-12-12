@@ -253,21 +253,6 @@ class _OrderScreenState extends State<OrderScreen> {
                 label: 'Add to Cart',
                 backgroundColor: Colors.green,
               ),
-              const SizedBox(height: 20),
-              StyledButton(
-                onPressed: _navigateToCartView,
-                icon: Icons.shopping_cart,
-                label: 'View Cart',
-                backgroundColor: Colors.blue,
-              ),
-              const SizedBox(height: 20),
-              StyledButton(
-                onPressed: _navigateToProfile,
-                icon: Icons.person,
-                label: 'Profile',
-                backgroundColor: Colors.purple,
-              ),
-              const SizedBox(height: 20),
               Consumer<Cart>(
                 builder: (context, cart, child) {
                   return Text(
