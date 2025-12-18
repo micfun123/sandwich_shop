@@ -68,6 +68,52 @@ flutter pub get
 flutter run
 ```
 
+## Tests
+
+- Integration: [integration_test/app_test.dart](integration_test/app_test.dart)
+    - Unit/widget suites live under [test/](test):
+        - [test/models](test/models) – cart, sandwich, saved order
+        - [test/repositories](test/repositories) – pricing repository
+        - [test/services](test/services) – database service
+        - [test/views](test/views) – order, cart, checkout, order history, profile, settings screens
+        - [test/widgets](test/widgets) – common widgets
+        - [test/widget_test.dart](test/widget_test.dart)
+
+Run integration tests (desktop/web device selection required):
+
+```bash
+flutter test integration_test/app_test.dart
+```
+
+Run unit/widget tests:
+
+```bash
+flutter test test
+```
+
+## Build
+
+- Web release (recommended for size baseline):
+    ```bash
+    flutter build web --release
+    ```
+- Windows desktop release:
+    ```bash
+    flutter build windows --release
+    ```
+- Debug builds are produced by `flutter run` (hot reload, larger size).
+
+Device selection: integration tests prompt for a target. Choose `1` for Windows desktop or `2` for Chrome when prompted.
+
+## Build Artifact Sizes
+
+- Release build artifact (current baseline): 89 KB
+- Debug build artifact (current baseline): 1,003 KB
+
+Notes:
+- Release builds are smaller because code is tree-shaken, minified, and stripped of debug symbols.
+- Debug builds include additional metadata and service code (hot reload, asserts, diagnostics), so they are larger.
+
 ## Get support
 
 Use [the dedicated Discord channel](https://discord.com/channels/760155974467059762/1370633732779933806)
