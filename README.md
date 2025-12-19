@@ -4,6 +4,19 @@ This is a simple Flutter app that allows users to order sandwiches.
 The app is built using Flutter and Dart, and it is designed primarily to be run in a web
 browser.
 
+## Features
+
+- **Browse Sandwiches** – View a catalog of available sandwiches with customization options
+- **Shopping Cart** – Add, remove, and adjust quantities of items in your cart
+- **Real-time Price Updates** – Cart total updates instantly as you make changes
+- **Checkout** – Secure checkout process to complete your order
+- **Order History** – Track your previously placed orders
+- **User Profile** – Manage your profile information and preferences
+- **Settings** – Customize app settings including font size preferences
+- **Responsive Design** – Works seamlessly on web and desktop platforms
+- **Database Support** – Local SQLite database for persisting order history
+- **Dynamic Pricing** – Automatic price calculations based on sandwich selection
+
 ## Install the essential tools
 
 1. **Terminal**:
